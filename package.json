@@ -1,0 +1,22 @@
+{
+  "name": "file-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "file-automation": "bin/file-automation.js"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "csv-parse": "^7.0.3",
+    "csv-stringify": "^6.9.0"
+  }
+}
