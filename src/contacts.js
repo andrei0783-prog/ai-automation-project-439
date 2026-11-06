@@ -54,7 +54,6 @@ export const writeContacts = (contacts, outputFolder) => {
   const csv = stringify(rows, {
     header: true,
     columns: ['имя', 'телефон', 'почта', 'источники'],
-    bom: true,
   });
   mkdirSync(outputFolder, { recursive: true });
   const contactsPath = path.join(outputFolder, 'contacts.csv');

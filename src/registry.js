@@ -20,7 +20,7 @@ export const writeRegistry = (files, outputFolder) => {
     ];
   });
 
-  const csv = stringify(rows, { header: true, columns, bom: true });
+  const csv = stringify(rows, { header: true, columns });
   mkdirSync(outputFolder, { recursive: true });
   const registryPath = path.join(outputFolder, 'registry.csv');
   writeFileSync(registryPath, csv, 'utf8');

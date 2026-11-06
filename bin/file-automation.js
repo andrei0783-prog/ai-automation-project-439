@@ -12,7 +12,8 @@ program
   .name('file-automation')
   .description('Автоматизация разбора файлов компании')
   .version('1.0.0', '-V, --version', 'вывести номер версии')
-  .helpOption('-h, --help', 'показать справку');
+  .helpOption('-h, --help', 'показать справку')
+  .showHelpAfterError();
 
 program
   .command('files <папка>')
@@ -45,9 +46,15 @@ program
     const summary = runContacts(folder);
     const contactsPath = writeContacts(summary.contacts, options.out);
     const reports = writeReports(buildContactsReport(summary), options.out);
+    for (const source of summary.sources) {
+      console.log(`${source.name}: записей ${source.count}`);
+    }
     console.log(`Выгрузок прочитано: ${summary.sources.length}, записей: ${summary.total}`);
     console.log(`Уникальных контактов: ${summary.contacts.length}`);
     console.log(`Отбраковано значений: ${summary.rejectedValues}, записей без телефона и почты: ${summary.discardedRecords}`);
+    const unmatched = summary.unmatchedColumns
+      .map(({ column, source }) => `${column} (${source})`);
+    console.log(`Колонки без соответствия: ${unmatched.join(', ') || 'нет'}`);
     console.log(`Таблица: ${contactsPath}`);
     console.log(`Отчёт: ${reports.textPath}`);
     console.log(`Отчёт для программ: ${reports.jsonPath}`);
