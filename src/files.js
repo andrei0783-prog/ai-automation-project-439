@@ -1,6 +1,7 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { walkFiles } from './walk-files.js';
 
 const tableExtensions = ['.csv', '.json'];
 const textExtensions = ['.txt', '.md', ''];
@@ -58,15 +59,13 @@ export const getFileStatus = (file) => {
 };
 
 export const collectFiles = (folder) => {
-  const entries = readdirSync(folder, { withFileTypes: true });
-  return entries
-    .filter((entry) => entry.isFile())
-    .map((entry) => {
-      const filePath = path.join(folder, entry.name);
+  return walkFiles(folder)
+    .map((filePath) => {
+      const name = path.basename(filePath);
       const file = {
         path: filePath,
-        name: entry.name,
-        extension: path.extname(entry.name),
+        name,
+        extension: path.extname(name),
         size: statSync(filePath).size,
         hash: createHash('sha256').update(readFileSync(filePath)).digest('hex'),
       };
